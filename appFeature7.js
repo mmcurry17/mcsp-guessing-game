@@ -1,36 +1,33 @@
-function game() {
-  let secretNumber = 17;
-  let playersList = {};
-  let guessCount = playerList[user].length + 1;
-  let guessLog = (playerList[user] = []);
-  const user = prompt(`Enter your username`) || "player 1";
+function play(user) /* boolean */ {
+  // let secretNumber = 17;
+  let secretNumber = Math.floor(Math.random() * 11);
+  let guessCount = 0;
+  let guessLog = [];
 
-  // function play() {
   while (true) {
+    console.log(secretNumber);
     const guess = prompt(`Guess a number ${user}.`);
     guessCount++;
-    playerList[user] = guessCount.push(guess);
+    guessLog.push(guess);
 
     if (guess === null) {
       alert(`Goodbye ${user}!`);
     }
-    if (guess == secretNumber && guessCount > 1) {
+    if (guess == secretNumber) {
       guessLog.pop();
       alert(
         `You are RIGHT!, it took you ${guessCount} tries.\nYour previous guesses were ${guessLog}.`
       );
-      let replay = prompt(
-        `${user} would you like to play again? 'Yes' or 'No'`
-      );
-      if (replay === "Yes") {
-        play();
-      } else {
-        break;
+      if (!leaderboard[user]) {
+        leaderboard[user] = guessCount;
+      } else if (guessCount < leaderboard[user]) {
+        leaderboard[user] = guessCount;
       }
-    }
-    if (guess == secretNumber && guessCount === 1) {
-      alert(`You are RIGHT, you got it on the first try!`);
-      break;
+      const winner = leader();
+      let replay = prompt(
+        `The current leader is ${winner[0]} with ${winner[1]} guesses.\n${user} would you like to play again? 'Yes' or 'No'`
+      ).toLowerCase;
+      return replay === ("yes" || "y");
     }
     if (guess < secretNumber && guess.length) {
       alert(`Guess again ${user}, try a LARGER number.`);
@@ -39,7 +36,25 @@ function game() {
       alert(`Guess again ${user}, try a SMALLER number.`);
     }
   }
-  // }
 }
 
-game();
+function leader() {
+  let winner = ["nobody", 999];
+  for (const name in leaderboard) {
+    const highScore = leaderboard[name];
+    if (winner[1] > highScore) {
+      winner = [name, highScore];
+    }
+  }
+  return winner;
+}
+
+// leaderboard: { [string: user]: bestGuessCount }
+const leaderboard = {};
+let user = null;
+while (true) {
+  if (!user) {
+    user = prompt(`Enter your username`) || "player 1";
+  }
+  if (!play(user)) user = null;
+}

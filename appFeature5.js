@@ -1,7 +1,7 @@
 function play() {
   let secretNumber = 17;
-  let guessCounter = 0;
-  let guessLogger = [];
+  let guessCount = 0;
+  let guessLog = [];
   const user = prompt(`Enter your username`);
 
   while (true) {
@@ -13,14 +13,14 @@ function play() {
       alert(`Goodbye ${user}!`);
       break;
     }
-    if (guess == secretNumber && guessCounter > 1) {
+    if (guess == secretNumber && guessCount > 1) {
       guessLogger.pop();
       alert(
-        `You are RIGHT!, it took you ${guessCounter} tries.\nYour previous guesses were ${guessLogger}.`
+        `You are RIGHT!, it took you ${guessCount} tries.\nYour previous guesses were ${guessLog}.`
       );
       break;
     }
-    if (guess == secretNumber && guessCounter === 1) {
+    if (guess == secretNumber && guessCount === 1) {
       alert(`You are RIGHT, you got it on the first try!`);
       break;
     }

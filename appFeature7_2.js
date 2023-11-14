@@ -1,9 +1,11 @@
 function play(user) /* boolean */ {
-  let secretNumber = 17;
+  // let secretNumber = 17;
+  let secretNumber = Math.floor(Math.random() * 101);
   let guessCount = 0;
   let guessLog = [];
 
   while (true) {
+    console.log(secretNumber);
     const guess = prompt(`Guess a number ${user}.`);
     guessCount++;
     guessLog.push(guess);
@@ -11,7 +13,7 @@ function play(user) /* boolean */ {
     if (guess === null) {
       alert(`Goodbye ${user}!`);
     }
-    if (guess == secretNumber && guessCount > 1) {
+    if (guess == secretNumber /*&& guessCount > 1*/) {
       guessLog.pop();
       alert(
         `You are RIGHT!, it took you ${guessCount} tries.\nYour previous guesses were ${guessLog}.`
@@ -25,16 +27,11 @@ function play(user) /* boolean */ {
       let replay = prompt(
         `The current leader is ${winner[0]} with ${winner[1]} guesses.\n${user} would you like to play again? 'Yes' or 'No'`
       );
-      if (replay === "Yes") {
-        return true;
-      } else {
-        return false;
-      }
+      return replay === "Yes";
     }
-    if (guess == secretNumber && guessCount === 1) {
-      alert(`You are RIGHT, you got it on the first try!`);
-      break;
-    }
+    // if (guess == secretNumber && guessCount === 1) {
+    //   alert(`You are RIGHT, you got it on the first try!`);
+    // }
     if (guess < secretNumber && guess.length) {
       alert(`Guess again ${user}, try a LARGER number.`);
     }
@@ -45,16 +42,12 @@ function play(user) /* boolean */ {
 }
 
 function leader() {
-  console.log("trying to find winner");
-  let winner = null;
+  let winner = ["nobody", 999];
   for (const name in leaderboard) {
     const highScore = leaderboard[name];
-    if (winner === null || winner[1] > highScore) {
+    if (winner[1] > highScore) {
       winner = [name, highScore];
     }
-  }
-  if (!winner) {
-    winner = ["nobody", 999];
   }
   return winner;
 }
@@ -68,11 +61,3 @@ while (true) {
   }
   if (!play(user)) user = null;
 }
-
-/*
-if (replay === "Yes") {
-  play();
-} else {
-  break;
-}
-*/
